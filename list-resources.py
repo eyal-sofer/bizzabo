@@ -1,9 +1,16 @@
-import boto3 
+import boto3
 
-ec2client = boto3.client('ec2', "us-east-1")
-instanceresponse = ec2client.describe_instances()
-for reservation in instanceresponse["Reservations"]:
-    for instance in reservation["Instances"]:
-        print(instance["InstanceId"])
+region = "us-east-1"
+input_string = input('Enter resources you wish to list, separated by space ')
+print("\n")
+resource_list = input_string.split()
+# print list
+print('resource list: ', resource_list)
 
-        ##repeat for each resource 
+# convert each item to int type
+for i in range(len(resource_list)):
+    client = boto3.client(resource_list[i], region)
+    instanceresponse = client.describe_instances()
+    for reservation in instanceresponse["Reservatsions"]:
+        for instance in reservation["Instances"]:
+            print(instance["InstanceId"])
